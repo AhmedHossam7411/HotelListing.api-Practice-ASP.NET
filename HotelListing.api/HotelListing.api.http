@@ -1,0 +1,33 @@
+@HotelListing.api_HostAddress = https://localhost:7141
+
+GET {{HotelListing.api_HostAddress}}/api/hotels
+Accept: application/json
+
+###
+
+POST {{HotelListing.api_HostAddress}}/api/hotels
+Content-Type: application/json
+
+{
+  //Hotel
+}
+
+###
+
+@id=3
+DELETE {{HotelListing.api_HostAddress}}/api/hotels/{{id}}
+
+###
+
+GET {{HotelListing.api_HostAddress}}/api/hotels/{{id}}
+
+###
+
+PUT {{HotelListing.api_HostAddress}}/api/hotels/{{id}}
+Content-Type: application/json
+
+{
+  //Hotel
+}
+
+###
