@@ -18,6 +18,7 @@ namespace HotelListing.api.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Hotel>> Get()
         {
+
             return Ok(hotels);
         }
 
