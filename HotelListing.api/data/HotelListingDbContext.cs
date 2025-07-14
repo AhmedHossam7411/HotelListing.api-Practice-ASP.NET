@@ -3,11 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using Microsoft.EntityFrameworkCore.SqlServer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 namespace HotelListing.API.Data
 {
-    public class HotelListingDbContext : DbContext
+    public class HotelListingDbContext : IdentityUserContext<ApiUser>
     {
-        public HotelListingDbContext(DbContextOptions options) : base(options)
+        public HotelListingDbContext(DbContextOptions<HotelListingDbContext> options) : base(options)
         {
             
         }
