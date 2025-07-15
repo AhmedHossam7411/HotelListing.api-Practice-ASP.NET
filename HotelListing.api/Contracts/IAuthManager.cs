@@ -1,4 +1,5 @@
-﻿using HotelListing.api.Dto;
+﻿using HotelListing.api.data;
+using HotelListing.api.Dto;
 using Microsoft.AspNetCore.Identity;
 
 namespace HotelListing.api.Contracts
@@ -6,6 +7,7 @@ namespace HotelListing.api.Contracts
     public interface IAuthManager 
     {
         Task<IEnumerable<IdentityError>> Register(ApiUserDto userDto);
-        Task<bool> Login(LoginDto loginDto);
+        Task<AuthResponseDto> Login(LoginDto loginDto);
+        Task<string> CreateToken();
     }
 }

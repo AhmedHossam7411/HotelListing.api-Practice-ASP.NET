@@ -1,21 +1,23 @@
-﻿using HotelListing.api.Contracts;
+﻿
+
+using HotelListing.api.Contracts;
 using HotelListing.api.Dto;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HotelListing.api.Controllers
+namespace HotelListing.API.Controllers
 {
-    // this time we are not scaffolding code , login/signup controller
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
     {
         private readonly IAuthManager _authManager;
+
         public AccountController(IAuthManager authManager)
         {
             this._authManager = authManager;
         }
-        // Post api/account/register
+
+        // POST: api/Account/register
         [HttpPost]
         [Route("register")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -23,7 +25,8 @@ namespace HotelListing.api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> Register([FromBody] ApiUserDto apiUserDto)
         {
-           var errors = await _authManager.Register(apiUserDto);
+            var errors = await _authManager.Register(apiUserDto);
+
             if (errors.Any())
             {
                 foreach (var error in errors)
@@ -32,23 +35,45 @@ namespace HotelListing.api.Controllers
                 }
                 return BadRequest(ModelState);
             }
+
             return Ok();
         }
 
-        // Post api/account/login
+        // POST: api/Account/login
         [HttpPost]
         [Route("login")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> login([FromBody] LoginDto loginDto)
+        public async Task<ActionResult> Login([FromBody] LoginDto loginDto)
         {
-            var isValidUser = await _authManager.Login(loginDto);
-            if (!isValidUser)
+            var authResponse = await _authManager.Login(loginDto);
+
+            if (authResponse == null)
             {
-                return Unauthorized(); // use this when unauthenticated 
+                return Unauthorized();
             }
-            return Ok();
+
+            return Ok(authResponse);
         }
+
+        /* POST: api/Account/refreshtoken
+        [HttpPost]
+        [Route("refreshtoken")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        /*public async Task<ActionResult> RefreshToken([FromBody] AuthResponseDto request)
+        {
+            var authResponse = await _authManager.VerifyRefreshToken(request);
+
+            if (authResponse == null)
+            {
+                return Unauthorized();
+            }
+
+            return Ok(authResponse);
+        }*/
+        
     }
 }
