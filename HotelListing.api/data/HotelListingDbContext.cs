@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Reflection.Emit;
 namespace HotelListing.API.Data
 {
-    public class HotelListingDbContext : IdentityUserContext<ApiUser>
+    public class HotelListingDbContext : IdentityDbContext<ApiUser>
     {
         public HotelListingDbContext(DbContextOptions<HotelListingDbContext> options) : base(options)
         {
@@ -18,6 +18,7 @@ namespace HotelListing.API.Data
 
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<Country> Countries { get; set; }
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

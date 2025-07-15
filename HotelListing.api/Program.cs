@@ -1,7 +1,11 @@
+using AutoMapper;
+using HotelListing.api.Contracts;
 using HotelListing.api.data;
+using HotelListing.api.Repositories;
 using HotelListing.API.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +21,14 @@ builder.Services.AddSwaggerGen();
 // Configure Identity for security
 builder.Services.AddIdentity<ApiUser, IdentityRole>()
     .AddEntityFrameworkStores<HotelListingDbContext>();
+
+//builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+//builder.Services.AddScoped<ICountriesRepository, CountriesRepository>();
+//builder.Services.AddScoped<IHotelsRepository, HotelsRepository>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddScoped<IAuthManager, AuthManager>();
+
+
 
 var app = builder.Build();
 

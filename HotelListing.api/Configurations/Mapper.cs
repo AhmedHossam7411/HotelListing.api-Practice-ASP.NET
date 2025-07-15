@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using HotelListing.api.data;
 using HotelListing.api.Dto;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace HotelListing.API.NET5.Configurations
 {
@@ -16,7 +15,7 @@ namespace HotelListing.API.NET5.Configurations
 
             CreateMap<Hotel, HotelDto>().ReverseMap();*/
 
-            CreateMap<ApiUserDto, ApiUser>().ReverseMap();
+            CreateMap<ApiUserDto, ApiUser>();
         }
     }
 }
