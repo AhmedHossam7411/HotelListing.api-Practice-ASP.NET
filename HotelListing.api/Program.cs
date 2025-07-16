@@ -23,7 +23,8 @@ builder.Services.AddSwaggerGen();
 
 // Configure Identity for security
 builder.Services.AddIdentity<ApiUser, IdentityRole>()
-    .AddEntityFrameworkStores<HotelListingDbContext>();
+    .AddEntityFrameworkStores<HotelListingDbContext>()
+     .AddTokenProvider<DataProtectorTokenProvider<ApiUser>>("HotelListingApi");   // token
 
 //builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 //builder.Services.AddScoped<ICountriesRepository, CountriesRepository>();
@@ -58,6 +59,7 @@ if (app.Environment.IsDevelopment())
 }
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
