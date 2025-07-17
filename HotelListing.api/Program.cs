@@ -8,11 +8,32 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container.  // builder services is our container 
+
+/*builder.Services.AddTransient ==> every class that needs the dependancy has a new instance
+builder.Services.AddScoped      ==> one instance for all classes per request (used most of time)
+builder.Services.AddSingleton ==> one instance despite any number of requests 
+*/
+
+/*builder.Services.AddScoped<IProductService, ProductService>();   When someone asks for an IProductService, give them a ProductService
+Once you register things in Program.cs, the framework injects them into constructors:
+
+public class ProductController : ControllerBase {
+    private readonly IProductService _productService;
+
+    public ProductController(IProductService productService) {
+        _productService = productService; // <-- Automatically injected!
+    }
+}
+No need to new ProductService() — ASP.NET Core takes care of that automatically.*/
+
+
 builder.Services.AddDbContext<HotelListingDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
 
@@ -52,13 +73,14 @@ builder.Services.AddAuthentication(options => {
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())            // if we are in development mode 
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 app.UseHttpsRedirection();
 
+// Configure middleware pipeline  // part of the request pipeline
 app.UseAuthentication();
 app.UseAuthorization();
 
